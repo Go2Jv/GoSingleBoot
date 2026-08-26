@@ -2,13 +2,13 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
 type Cfg struct {
-	ApplicationCfg ApplicationCfg
-	OpenApi        bool `json:"OpenApi"`
-	DatabaseCfg    DatabaseCfg
+	ApplicationCfg ApplicationCfg `json:"Application"`
+	DatabaseCfg    DatabaseCfg    `json:"Database"`
 }
 
 var Config Cfg
@@ -16,6 +16,7 @@ var Config Cfg
 type ApplicationCfg struct {
 	Name string `json:"Name"`
 	Port string `json:"Port"`
+	Text bool   `json:"Text"`
 }
 
 type DatabaseCfg struct {
@@ -33,5 +34,6 @@ func InitConfig() {
 	if err != nil {
 		panic("解析Config.json文件时发生错误 : " + err.Error())
 	}
+	fmt.Println(cfg)
 	Config = cfg
 }

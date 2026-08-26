@@ -2,6 +2,7 @@ package db
 
 import (
 	"GoSingleBoot/internal/config"
+	"GoSingleBoot/internal/logger"
 	"context"
 	"database/sql"
 	"math/rand/v2"
@@ -64,6 +65,7 @@ func NewPostgresClient() {
 		client.slaves = slavesList
 	}
 
+	logger.Logger.Info("数据库初始化成功")
 	Client = &client
 }
 
