@@ -30,6 +30,15 @@ func (c *PostgresClient) Slave() *bun.DB {
 	}
 }
 
+func (c *PostgresClient) Close() {
+	c.Master.Close()
+	if len(c.slaves) > 0 {
+		for _, slave := range c.slaves {
+			slave.Close()
+		}
+	}
+}
+
 var Client *PostgresClient
 
 func NewPostgresClient() {
