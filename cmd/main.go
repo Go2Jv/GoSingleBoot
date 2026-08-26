@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"GoSingleBoot/internal/config"
+	"GoSingleBoot/internal/db"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	config.InitConfig()
+	db.NewPostgresClient()
+
 }
