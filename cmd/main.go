@@ -34,7 +34,7 @@ func startHttpServer() {
 		IdleTimeout:  60 * time.Second,
 	}
 	go func() {
-		logger.Logger.Info("后端服务启动成功,PORT在 " + config.Config.ApplicationCfg.Port)
+		logger.Logger.Info("后端服务启动成功,在 " + config.Config.ApplicationCfg.Port + " 运行")
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			panic("后端服务启动失败: " + err.Error())
 		}
