@@ -1,24 +1,33 @@
 package bizErr
 
 import (
-	"GoSingleBoot/internal/logger"
 	"database/sql"
 	"errors"
 
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 )
 
-func Warp(code int, msg string) *BizErr {
+// 我这里只是负责抛出或是传递错误，错误应该让错误中间件处理，打日志也是，防止重复打日志！
+
+func Wrap(code int, msg string, err error) *BizErr {
+	// 如果err为空，直接使用msg！方便快速开发
+	if err == nil {
+		err = errors.New(msg)
+	}
 	return &BizErr{
 		Code: code,
 		Msg:  msg,
+		Log:  err,
 	}
 }
 
-// Throw 自动打包为Warp()，然后抛出到全局错误处理中间件
-func Throw(c *gin.Context, code int, msg string) {
-	bz := Warp(code, msg)
+// Throw 自动打包为Wrap()，然后抛出到全局错误处理中间件
+func Throw(c *gin.Context, code int, msg string, err error) {
+	// 如果err为空，直接使用msg！方便快速开发
+	if err == nil {
+		err = errors.New(msg)
+	}
+	bz := Wrap(code, msg, err)
 	_ = c.Error(bz)
 }
 
@@ -28,8 +37,8 @@ func Validation(c *gin.Context, err error) bool {
 		var bz = &BizErr{
 			Code: 400,
 			Msg:  "非法传参",
+			Log:  err,
 		}
-		logger.Logger.Warn(err.Error())
 		_ = c.Error(bz)
 		return false
 	}
@@ -43,13 +52,12 @@ func SQLNotFound(c *gin.Context, err error) bool {
 		var bz = &BizErr{
 			Code: 404,
 			Msg:  "不存在",
+			Log:  err,
 		}
-		logger.Logger.Warn(err.Error())
 		_ = c.Error(bz)
 		return false
 	}
 	if err != nil {
-		logger.Logger.Error(err.Error(), zap.Stack("stack"))
 		panic("数据库异常 :" + err.Error())
 	}
 	return true

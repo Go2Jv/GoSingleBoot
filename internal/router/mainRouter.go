@@ -3,6 +3,7 @@ package router
 import (
 	"GoSingleBoot/internal/config"
 	"GoSingleBoot/internal/middleware"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,5 +29,12 @@ func MainRouter() *gin.Engine {
 	rg := mainRouter.Group("/api")
 	RegisterLoginRouter(rg)
 
+	// NoRoute 404
+	mainRouter.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{
+			"code": http.StatusNotFound,
+			"msg":  "不存在该Api",
+		})
+	})
 	return mainRouter
 }

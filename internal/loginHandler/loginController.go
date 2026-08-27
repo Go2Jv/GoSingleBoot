@@ -51,13 +51,13 @@ func (lc *LoginHandler) Login(c *gin.Context) {
 	}
 
 	if user.Password != rq.Password {
-		bizErr.Throw(c, 400, "账号密码错误")
+		bizErr.Throw(c, 400, "账号密码错误", nil)
 		return
 	}
 
 	token, err := jwt.GenerateToken(strconv.Itoa(int(user.ID)))
 	if err != nil {
-		bizErr.Throw(c, 500, err.Error())
+		bizErr.Throw(c, 500, err.Error(), nil)
 		return
 	}
 

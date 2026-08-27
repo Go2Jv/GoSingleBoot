@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"GoSingleBoot/internal/bizErr"
+	"GoSingleBoot/internal/logger"
 	"errors"
 	"net/http"
 
@@ -17,6 +18,8 @@ func GlobalErrorMiddleware() gin.HandlerFunc {
 				// 90%都是业务错误
 				var bz *bizErr.BizErr
 				if ok := errors.As(err, &bz); ok {
+					// logger打的信息和返回给用户的信息是不一样的！
+					logger.Logger.Warn(bz.Log.Error())
 					c.JSON(http.StatusOK, gin.H{
 						"code": bz.Code,
 						"msg":  bz.Msg,
@@ -25,11 +28,13 @@ func GlobalErrorMiddleware() gin.HandlerFunc {
 				}
 
 				// 兜底的，未知错误
+				logger.Logger.Warn(err.Error())
 				c.JSON(500, gin.H{
 					"code": 500,
-					"msg":  err.Error(),
+					"msg":  "服务器繁忙，请稍后重试",
 				})
 			}
+
 		}()
 		c.Next()
 	}
