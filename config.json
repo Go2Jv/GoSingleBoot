@@ -2,7 +2,7 @@
   "Application": {
     "Name": "GoSingleBoot",
     "Port": ":8080",
-    "Text": false
+    "Text": true
   },
   "Database": {
     "Master": "postgres://root:12345678@localhost:5432/postgres?sslmode=disable",

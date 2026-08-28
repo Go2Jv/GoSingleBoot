@@ -1,14 +1,14 @@
 package router
 
 import (
-	"GoSingleBoot/internal/loginHandler"
+	"GoSingleBoot/internal/handler"
 
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterLoginRouter(rg *gin.RouterGroup) {
 	//实例化LoginHandler ->Login
-	lhandler := loginHandler.NewLoginHandler()
+	lhandler := handler.NewLoginHandler()
 
 	rg.POST("/login", lhandler.Login)
 }

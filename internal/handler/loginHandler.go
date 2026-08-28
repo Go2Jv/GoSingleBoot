@@ -1,4 +1,4 @@
-package loginHandler
+package handler
 
 import (
 	"GoSingleBoot/internal/bizErr"

@@ -2,6 +2,7 @@ package router
 
 import (
 	"GoSingleBoot/internal/config"
+	"GoSingleBoot/internal/docs"
 	"GoSingleBoot/internal/middleware"
 	"net/http"
 
@@ -24,6 +25,13 @@ func MainRouter() *gin.Engine {
 	mainRouter.Use(middleware.CorsMiddleware())
 	mainRouter.Use(middleware.PanicMiddleware())
 	mainRouter.Use(middleware.GlobalErrorMiddleware())
+
+	// 添加了openapi自动生成和一个swagger页面
+	text := config.Config.ApplicationCfg.Text
+	if text {
+		docs.GenerateOpenAPI()
+		mainRouter.GET("/docs", docs.Handler)
+	}
 
 	// Register Router 注册路由
 	rg := mainRouter.Group("/api")
