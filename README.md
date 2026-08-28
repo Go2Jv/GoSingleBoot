@@ -100,9 +100,9 @@ if ok := bizErr.SQLNotFound(c, err); !ok {
 | 平台 | 文件 |
 | --- | --- |
 | Windows x64 / x86 | `goboot-windows-amd64.exe` / `goboot-windows-386.exe` |
-| macOS Universal(Apple Silicon + Intel 通用) | `goboot-darwin-universal` |
+| macOS Universal(Apple Silicon + Intel 通用) | `goboot-mac-universal` |
 
-macOS 首次运行若提示无法验证开发者,可执行 `xattr -d com.apple.quarantine goboot-darwin-universal` 解除隔离(Windows 下载 `.exe` 后如被 SmartScreen 拦截,点击"仍要运行"即可,均为未签名的开源二进制)。
+macOS 首次运行若提示无法验证开发者,可执行 `xattr -d com.apple.quarantine goboot-mac-universal` 解除隔离(Windows 下载 `.exe` 后如被 SmartScreen 拦截,点击"仍要运行"即可,均为未签名的开源二进制)。
 
 也可以随时从源码运行:
 
