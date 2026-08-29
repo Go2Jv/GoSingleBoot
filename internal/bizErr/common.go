@@ -21,13 +21,20 @@ func Check(c *gin.Context, code int, msg string, err error) bool {
 	return true
 }
 
+// ServerBusy 直接封装了很多不方便的错误，如生成token失败，或是读取文件失败，数据库/Redis崩了
+// 你总不可以直接和用户将服务器文件读取失败吧？？？或是我的数据库崩了吧？？？
+// 直接返回服务器繁忙骗一下用户
+func ServerBusy(c *gin.Context, err error) bool {
+	if err != nil {
+		bz := Wrap(500, "服务器繁忙，请稍后重试", err)
+		_ = c.Error(bz)
+		return false
+	}
+	return true
+}
+
 // Validation 用来验证参数时报错时
 func Validation(c *gin.Context, msg string, err error) bool {
-	//if err != nil {
-	//	bz := Wrap(400, msg, err)
-	//	_ = c.Error(bz)
-	//	return false
-	//}
 	if msg == "" {
 		msg = "非法传参"
 	}
@@ -51,14 +58,5 @@ func SQLNotFound(c *gin.Context, msg string, err error) bool {
 		return false
 	}
 
-	return true
-}
-
-// DBError 数据库异常
-func DBError(c *gin.Context, err error) bool {
-	if err != nil {
-		_ = c.Error(Wrap(500, "服务器繁忙，请稍后重试", err))
-		return false
-	}
 	return true
 }
