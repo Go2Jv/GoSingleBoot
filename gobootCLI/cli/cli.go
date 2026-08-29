@@ -160,7 +160,7 @@ func Run() error {
 	fmt.Println("Next:")
 	fmt.Println()
 	fmt.Printf("cd %s\n", projectDir)
-	fmt.Println("go run .")
+	fmt.Println("go run cmd/main.go")
 	if gitInit {
 		fmt.Println()
 		fmt.Println("Git repository initialized.")

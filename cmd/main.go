@@ -15,8 +15,10 @@ import (
 
 func main() {
 	config.InitConfig()
+
 	logger.InitLogger()
 	defer logger.Logger.Sync()
+
 	db.NewPostgresClient()
 	defer db.Client.Close()
 
