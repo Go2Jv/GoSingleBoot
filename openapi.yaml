@@ -47,4 +47,4 @@ paths:
             responses:
                 "200":
                     description: Successful response
-            summary: Handler
+            summary: Docs

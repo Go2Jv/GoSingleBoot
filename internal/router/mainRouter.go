@@ -30,7 +30,7 @@ func MainRouter() *gin.Engine {
 	text := config.Config.ApplicationCfg.Text
 	if text {
 		docs.GenerateOpenAPI()
-		mainRouter.GET("/docs", docs.Handler)
+		mainRouter.GET("/docs", docs.Docs)
 	}
 
 	// Register Router 注册路由

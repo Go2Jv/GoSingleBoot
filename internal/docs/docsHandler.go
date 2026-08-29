@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Handler(c *gin.Context) {
+func Docs(c *gin.Context) {
 	html, err := scalar.ApiReferenceHTML(&scalar.Options{
 		SpecURL: "./openapi.yaml",
 		CustomOptions: scalar.CustomOptions{
