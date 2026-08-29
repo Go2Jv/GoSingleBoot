@@ -31,7 +31,7 @@ func (lc *LoginHandler) Login(c *gin.Context) {
 	//	bizErr.Validation(c, err)
 	//	return
 	//}
-	if ok := bizErr.Validation(c, err); !ok {
+	if ok := bizErr.Validation(c, "", err); !ok {
 		return
 	}
 
@@ -46,18 +46,18 @@ func (lc *LoginHandler) Login(c *gin.Context) {
 	//		xxxx 一大堆逻辑
 	//	}
 	//}
-	if ok := bizErr.SQLNotFound(c, err); !ok {
+	if ok := bizErr.SQLNotFound(c, "账号为注册", err); !ok {
 		return
 	}
 
 	if user.Password != rq.Password {
-		bizErr.Throw(c, 400, "账号密码错误", nil)
+		bizErr.Abort(c, 400, "账号或密码错误", nil)
 		return
 	}
 
 	token, err := jwt.GenerateToken(strconv.Itoa(int(user.ID)))
 	if err != nil {
-		bizErr.Throw(c, 500, err.Error(), nil)
+		bizErr.Abort(c, 500, err.Error(), nil)
 		return
 	}
 
