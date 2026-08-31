@@ -1,0 +1,7 @@
+services:
+  golangBackendServer:
+    image: go-singleboot:v1
+    ports:
+      - "8080:8080"
+    volumes:
+      - "~/docker/golangBackendServer/config.json:/server/config.json"

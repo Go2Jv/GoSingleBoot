@@ -1,3 +1,5 @@
 .idea
 gobootCLI.iml
 .DS_Store
+docker-compose.yml
+.dockerignore

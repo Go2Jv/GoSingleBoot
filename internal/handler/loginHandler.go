@@ -34,6 +34,7 @@ func (lc *LoginHandler) Login(c *gin.Context) {
 	if ok := bizErr.Validation(c, "", err); !ok {
 		return
 	}
+	// if bizErr.Validation(c, "", c.ShouldBindJSON(&rq)) {return} 这样写也可以的！！！
 
 	var user model.User
 	err = db.Client.Master.NewSelect().
@@ -42,10 +43,11 @@ func (lc *LoginHandler) Login(c *gin.Context) {
 		Limit(1).
 		Scan(c, &user)
 	//if err != nil {
-	//	if err == sql.ErrNoRows {
+	//	if error.Is(err , sql.ErrNoRows) {
 	//		xxxx 一大堆逻辑
 	//	}
 	//}
+
 	if ok := bizErr.SQLNotFound(c, "账号为注册", err); !ok {
 		return
 	}
@@ -60,6 +62,9 @@ func (lc *LoginHandler) Login(c *gin.Context) {
 		bizErr.Abort(c, 500, err.Error(), nil)
 		return
 	}
+	//if ok := bizErr.ServerBusy(c, err); !ok {
+	//	return
+	//}
 
 	var rs resp.CodeMsgAndData
 	rs.Code = 200
